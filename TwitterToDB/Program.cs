@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,6 @@ namespace TwitterToDB
     {
         static void Main(string[] args)
         {
-            /*
             Auth.SetUserCredentials("Ur3PBOoqVk51myW4EllCbLDq7", "b1vmUfCu3GRoXblMEyjPOuijpECDpvUpsYX8hymFGMhjt5LcHk", "262095897-zJ1P75AIw87di5BjtcLrq3MjlgFwhv0qonHFpDJy", "FQHxPPYwQmnhynZ4fLAIa9IM8S0pDf4gOlZtOT358ndiB");
 
             var authenticatedUser = User.GetAuthenticatedUser();
@@ -30,20 +30,37 @@ namespace TwitterToDB
                 Until = new DateTime(2017, 06, 02)
             };
 
-            var tweets = Search.SearchTweets(searchParameter);*/
+            var tweets = Search.SearchTweets(searchParameter);
 
-            SaveTweets(null);
+            SaveTweets(tweets);
         }
 
         private static void SaveTweets(IEnumerable<ITweet> tweets)
         {
+            SqlConnection connection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Twitter;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            connection.Open();
+
+            foreach (var tweet in tweets)
+            {
+                using (SqlCommand com = new SqlCommand("insert into Tweets(TwitterID,FullText) values(@a,@b)", connection))
+                {
+                    com.Parameters.AddWithValue("@a", tweet.Id);
+                    com.Parameters.AddWithValue("@b", tweet.FullText);
+
+                    com.ExecuteNonQuery();
+                }
+            }
+
+            connection.Close();
+
+            /*
             OleDbConnection my_con = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\\sbhat2\\Documents\\Twitter.accdb");
             my_con.Open();
             OleDbCommand o_cmd = new OleDbCommand("insert into Tweets(TwitterID,FullText) values(@a,@b)", my_con);
             o_cmd.Parameters.AddWithValue("@a", 123);
             o_cmd.Parameters.AddWithValue("@b", "sample");
             int i = o_cmd.ExecuteNonQuery();
-            my_con.Close();
+            my_con.Close();*/
 
             /*
             OleDbConnection connect = new OleDbConnection();
