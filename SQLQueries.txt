@@ -1,0 +1,14 @@
+drop table tweets
+
+CREATE TABLE Tweets
+(
+    ID int IDENTITY(1,1) PRIMARY KEY,
+    [TwitterID] bigint NULL, 
+    [FullText] TEXT NULL,
+	[SentimentType] varchar(30) NULL,
+	[SentimentCount] bigint NULL,
+	[CreatedDate] datetime NULL,
+	[Language] varchar(30) NULL,
+	[IsReweet] varchar(30) NULL,
+);
+
