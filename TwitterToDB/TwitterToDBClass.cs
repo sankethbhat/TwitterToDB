@@ -10,7 +10,7 @@ using Tweetinvi.Parameters;
 
 namespace TwitterToDB
 {
-    class MainClass
+    class TwitterToDBClass
     {
         static void Main(string[] args)
         {
