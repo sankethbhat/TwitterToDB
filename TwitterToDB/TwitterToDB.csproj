@@ -119,6 +119,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SentimentIdentifier.cs" />
     <Compile Include="StopWordRemover.cs" />
     <Compile Include="TwitterToDBClass.cs" />
     <Compile Include="Constants.cs" />

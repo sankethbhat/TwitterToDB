@@ -50,5 +50,23 @@ namespace UnitTestProject
 
             Assert.AreNotEqual(sampleText, afterStopWordRemoval);
         }
+
+        [TestMethod]
+        public void TestPositiveSentiment()
+        {
+            string sampleText = "Demonitization is an good move, however its difficult to implement";
+            var sentiment = SentimentIdentifier.GetSentiment(sampleText);
+
+            Assert.AreEqual(sentiment.Type, "Positive");
+        }
+
+        [TestMethod]
+        public void TestNegativeSentiment()
+        {
+            string sampleText = "Demonitization is an bad move, we should abolish it soon";
+            var sentiment = SentimentIdentifier.GetSentiment(sampleText);
+
+            Assert.AreEqual(sentiment.Type, "Negative");
+        }
     }
 }
