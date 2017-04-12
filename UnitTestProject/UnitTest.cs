@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tweetinvi;
-using System.Collections.Generic;
-using Tweetinvi.Models;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data.SqlClient;
 using TwitterToDB;
+using Newtonsoft.Json;
+using OAuthTwitterWrapper.JsonTypes;
 
 namespace UnitTestProject
 {
@@ -14,22 +12,19 @@ namespace UnitTestProject
         [TestMethod]
         public void TestTwitterAuthentication()
         {
-            Auth.SetUserCredentials("Ur3PBOoqVk51myW4EllCbLDq7", "b1vmUfCu3GRoXblMEyjPOuijpECDpvUpsYX8hymFGMhjt5LcHk", "262095897-zJ1P75AIw87di5BjtcLrq3MjlgFwhv0qonHFpDJy", "FQHxPPYwQmnhynZ4fLAIa9IM8S0pDf4gOlZtOT358ndiB");
+            var oAuthTwitterWrapper = new OAuthTwitterWrapper.OAuthTwitterWrapper();
+            var result = JsonConvert.DeserializeObject<Search>(oAuthTwitterWrapper.GetSearch());
 
-            var authenticatedUser = User.GetAuthenticatedUser();
-
-            Assert.IsNotNull(authenticatedUser);
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
         public void TestSearchTweets()
         {
-            Auth.SetUserCredentials("Ur3PBOoqVk51myW4EllCbLDq7", "b1vmUfCu3GRoXblMEyjPOuijpECDpvUpsYX8hymFGMhjt5LcHk", "262095897-zJ1P75AIw87di5BjtcLrq3MjlgFwhv0qonHFpDJy", "FQHxPPYwQmnhynZ4fLAIa9IM8S0pDf4gOlZtOT358ndiB");
+            var oAuthTwitterWrapper = new OAuthTwitterWrapper.OAuthTwitterWrapper();
+            var result = JsonConvert.DeserializeObject<Search>(oAuthTwitterWrapper.GetSearch());
 
-            var authenticatedUser = User.GetAuthenticatedUser();
-            IEnumerable<ITweet> tweets = Search.SearchTweets("Demonitization");
-
-            Assert.IsNotNull(tweets);
+            Assert.IsTrue(result.Results.Count > 0);
         }
 
         [TestMethod]
